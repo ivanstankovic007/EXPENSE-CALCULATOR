@@ -1,0 +1,63 @@
+.expenses_top {
+  width: 100%;
+}
+
+.filter_months {
+  margin-left: 20px;
+  margin-top: 5%;
+  display: inline;
+}
+
+.filter_months:before {
+  content: "Choose Month:";
+  color: #000000;
+}
+
+.buttons_expenses {
+  margin-left: 7%;
+  display: inline;
+}
+
+.monthly {
+  background: #1dd1a1;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 20px;
+  border-radius: 5px;
+  width: 150px;
+}
+
+.yearly {
+  background: #c9e5dd;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 20px;
+  border-radius: 5px;
+  width: 150px;
+  margin-left: -5px;
+}
+
+.buttons_filter {
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+.total_bottom {
+  width: 100%;
+  background: #8d8d8d;
+  color: #fff;
+  bottom: 0;
+  position: fixed;
+}
+
+.total_bottom p {
+  font-size: 22px;
+  text-align: right;
+  justify-content: center;
+  vertical-align: center;
+  color: #fff;
+}
