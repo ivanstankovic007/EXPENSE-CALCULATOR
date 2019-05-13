@@ -42,7 +42,9 @@ export class Products extends React.Component {
             <br />
             <div className="buttons_alert">
               <button className="cancel">cancel</button>
-              <button className="delete">delete</button>
+              <button className="delete"><NavLink id="link_alert" to="/alert">
+              delete
+            </NavLink></button>
             </div>
           </div>
         </div>
