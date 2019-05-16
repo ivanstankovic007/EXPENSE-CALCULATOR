@@ -14,9 +14,9 @@ var productSchema = new Schema ({
     productName: {type: String, required: true},
     productDescription: {type: String},
     productType: {type: String},
-    purchaseDate:{type: Date, required: true},
-    price:{type: Number, required: true},
-    userID:{type: String, required: true},
+    purchaseDate:{type: String, required: true},
+    price:{type: String},
+    userID:{type: String},
 });
 
 var Product = mongoose.model("Product", productSchema);
