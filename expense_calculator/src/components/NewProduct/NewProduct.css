@@ -63,14 +63,16 @@
 }
 
 .logo_circle {
-  font-size: 8px;
-  padding: 2%;
+  width: 5%;
+  height: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
-  vertical-align: center;
-  margin-top: 55%;
+  vertical-align: middle;
+  margin: auto;
   color: #8d8d8d;
+  font-size: 20px;
+  margin-top: 55%;
 }
 
 #product_paragraph {

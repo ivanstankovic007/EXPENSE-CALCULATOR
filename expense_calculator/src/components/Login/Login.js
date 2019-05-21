@@ -7,7 +7,7 @@ export class Login extends React.Component {
     return (
       <section id="login">
         <div className="center">
-          <div className="login">
+          <div>
             <form className="login_form">
               <label for="email">E-mail</label>
               <input id="email" type="email" className="input" />

@@ -31,23 +31,6 @@ export class Products extends React.Component {
             </NavLink>
           </button>
         </div>
-
-        <div className="alert">
-          <div className="white_box">
-            <h1>Delete Product</h1>
-            <p>
-              You are about to delete this product. Are you sure you wish to
-              continue?
-            </p>{" "}
-            <br />
-            <div className="buttons_alert">
-              <button className="cancel">cancel</button>
-              <button className="delete"><NavLink id="link_alert" to="/alert">
-              delete
-            </NavLink></button>
-            </div>
-          </div>
-        </div>
       </section>
     );
   }
