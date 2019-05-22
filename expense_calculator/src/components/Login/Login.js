@@ -3,15 +3,27 @@ import "./Login.css";
 import { NavLink } from "react-router-dom";
 
 export class Login extends React.Component {
+
+  componentDidMount() {
+   
+  }
+
+  // FetchProducts() {
+  //   fetch("http://localhost:3000/products")
+  //     .then((res) => { return res.json() })
+  //     .then((res) => console.log("RESULT FROM FETCH", res))
+  //     .catch((err) => console.error(err));
+  // }
+
   render() {
     return (
       <section id="login">
         <div className="center">
           <div>
             <form className="login_form">
-              <label for="email">E-mail</label>
+              <label htmlFor="email">E-mail</label>
               <input id="email" type="email" className="input" />
-              <label for="password">Password</label>
+              <label htmlFor="password">Password</label>
               <input id="password" type="password" />
 
               <button className="signin">sign in</button>

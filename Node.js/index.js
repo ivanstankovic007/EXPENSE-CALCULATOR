@@ -5,10 +5,21 @@ const db = require("./connection");
 const User = require("./models/users");
 const myParser = require("body-parser");
 app.use(myParser.urlencoded({ extended: true }));
+app.use(myParser.json());
 const session = require("express-session");
 app.use(session({ secret: "test" }));
 
-app.listen(8000);
+
+
+let allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Headers', "*");
+  next();
+}
+app.use(allowCrossDomain);
+
+
+app.listen(3000);
 
 app.post("/register", (req, res, next) => {
   var firstname = req.body.firstname;
