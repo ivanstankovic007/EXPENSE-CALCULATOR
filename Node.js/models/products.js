@@ -10,15 +10,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-var productSchema = new Schema ({
-    productName: {type: String, required: true},
-    productDescription: {type: String},
-    productType: {type: String},
-    purchaseDate:{type: String, required: true},
-    price:{type: String},
-    userID:{type: String},
+var productsSchema = new Schema({
+  productname: { type: String, required: true },
+  productdescription: { type: String, required: true },
+  producttype: { type: String, required: true },
+  purchasedate: { type: Date, required: true },
+  price: { type: Number, required: true },
+  userID: { type: String }
 });
 
-var Product = mongoose.model("Product", productSchema);
+var Product = mongoose.model("Product", productsSchema);
 
 module.exports = Product;

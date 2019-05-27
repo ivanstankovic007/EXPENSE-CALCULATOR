@@ -3,6 +3,10 @@ import "../Table/Table.css";
 
 export class Table extends React.Component {
   render() {
+    // fetch("http://localhost:3000/products") // Call the fetch function passing the url of the API as a parameter
+    //   .then(res => console.log("Products shown: ", res))
+    //   .catch(err => console.error(err));
+
     return (
       <section id="table_section">
         <div className="table">

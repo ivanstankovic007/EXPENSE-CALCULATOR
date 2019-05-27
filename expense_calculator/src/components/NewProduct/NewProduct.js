@@ -3,6 +3,48 @@ import "./NewProduct.css";
 import plusCircle from "../../assets/images/plus-circle.svg";
 
 export class NewProduct extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      productname: "",
+      productdescription: "",
+      producttype: "",
+      purchasedate: "",
+      price: ""
+    };
+
+    this.HandleFieldsChange = this.HandleFieldsChange.bind(this);
+    this.AddProduct = this.AddProduct.bind(this);
+  }
+
+  AddProduct() {
+    let information = {
+      productname: this.state.productname,
+      productdescription: this.state.productdescription,
+      producttype: this.state.producttype,
+      purchasedate: this.state.purchasedate,
+      price: this.state.price
+    };
+
+    fetch("http://localhost:3000/addproduct", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(information)
+    })
+      .then(res => console.log("PRODUCT RESULT: ", res))
+      .catch(err => console.error(err));
+  }
+
+  HandleFieldsChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
   render() {
     return (
       <section id="newProduct_section">
@@ -10,30 +52,51 @@ export class NewProduct extends React.Component {
           <h1 className="title">New Product</h1>
           <div className="middle_center">
             <div className="login middle_left">
-              <form className="product_form">
-                <label className="product_label" for="fname">
-                  Product Name
-                </label>
-                <input type="text" />
-                <label className="product_label" for="lname">
-                  Product Description
-                </label>
-                <input type="text" />
-                <label className="product_label" for="email">
-                  Product Type
-                </label>
-                <input type="email" />
-                <label className="product_label" for="birth">
-                  Purchase Date
-                </label>
-                <input type="date" />
-                <label className="product_label" for="phone">
-                  Product Price
-                </label>
-                <input type="number" />
+              <div className="product_form">
+                <label htmlFor="fname">Product Name</label>
+                <input
+                  name="productname"
+                  value={this.state.productname}
+                  onChange={this.HandleFieldsChange}
+                  type="text"
+                />
 
-                <button className="signin">create product</button>
-              </form>
+                <label htmlFor="lname">Product Description</label>
+                <input
+                  name="productdescription"
+                  value={this.state.productdescription}
+                  onChange={this.HandleFieldsChange}
+                  type="text"
+                />
+
+                <label htmlFor="email">Product Type</label>
+                <input
+                  name="producttype"
+                  value={this.state.producttype}
+                  onChange={this.HandleFieldsChange}
+                  type="email"
+                />
+
+                <label htmlFor="birth">Purchase Date</label>
+                <input
+                  name="purchasedate"
+                  value={this.state.purchasedate}
+                  onChange={this.HandleFieldsChange}
+                  type="date"
+                />
+
+                <label htmlFor="phone">Product Price</label>
+                <input
+                  name="price"
+                  value={this.state.price}
+                  onChange={this.HandleFieldsChange}
+                  type="number"
+                />
+
+                <button onClick={this.AddProduct} className="signin">
+                  create product
+                </button>
+              </div>
             </div>
             <div className="middle_right">
               <span className="product_label">

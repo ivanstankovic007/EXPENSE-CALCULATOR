@@ -9,15 +9,12 @@ app.use(myParser.json());
 const session = require("express-session");
 app.use(session({ secret: "test" }));
 
-
-
 let allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', "*");
-  res.header('Access-Control-Allow-Headers', "*");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
   next();
-}
+};
 app.use(allowCrossDomain);
-
 
 app.listen(3000);
 
@@ -54,30 +51,30 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-// app.post("/login", (req, res) => {
-//     var email = req.body.emailLogin;
-//     var pass = req.body.passLogin;
+app.post("/login", (req, res) => {
+  var email = req.body.emailLogin;
+  var pass = req.body.passLogin;
 
-//     //database checks
+  //database checks
 
-//     req.session.user = email;
+  req.session.user = email;
 
-//     //return response to FE
-// })
+  //return response to FE
+});
 
 app.post("/addProduct", (req, res, next) => {
-  var productName = req.body.productName;
-  var productDescription = req.body.productDescription;
-  var productType = req.body.productType;
-  var purchaseDate = req.body.purchaseDate;
+  var productname = req.body.productname;
+  var productdescription = req.body.productdescription;
+  var producttype = req.body.producttype;
+  var purchasedate = req.body.purchasedate;
   var price = req.body.price;
   var userEmail = req.session.email;
 
   let product = new Product({
-    productName: productName,
-    productDescription: productDescription,
-    productType: productType,
-    purchaseDate: purchaseDate,
+    productname: productname,
+    productdescription: productdescription,
+    producttype: producttype,
+    purchasedate: purchasedate,
     price: price,
     userEmail: userEmail
   });
