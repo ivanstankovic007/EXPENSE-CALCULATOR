@@ -4,11 +4,108 @@ import { NavLink } from "react-router-dom";
 import { Table } from "../Table/Table";
 
 export class Products extends React.Component {
-  render() {
-    // fetch("http://localhost:3000/products") // Call the fetch function passing the url of the API as a parameter
-    //   .then(res => console.log("Products shown: ", res))
-    //   .catch(err => console.error(err));
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      products: [],
+      product: {},
+      error: {
+        show: false,
+        errorMsg: ""
+      },
+      isHidden: true,
+      selectedId: {}
+    };
+
+    this.FetchProducts = this.FetchProducts.bind(this);
+    this.DeleteProduct = this.DeleteProduct.bind(this);
+    this.toggleAlert = this.toggleAlert.bind(this);
+  }
+
+  componentDidMount() {
+    this.FetchProducts();
+  }
+
+  toggleAlert() {
+    this.setState(
+      state => {
+        return {
+          isHidden: !state.isHidden
+        };
+      },
+      () => {
+        console.log("IS HIDDEN: ", this.state.isHidden);
+      }
+    );
+  }
+
+  //get method
+  FetchProducts() {
+    fetch("http://localhost:3000/products")
+      .then(res => {
+        return res.json();
+      })
+      .then(res => this.setState({ products: res }))
+      .catch(err => {
+        this.setState(state => {
+          return {
+            error: {
+              ...state.error,
+              show: true,
+              errorMsg: err
+            }
+          };
+        });
+      });
+  }
+
+  // za Delete
+  DeleteProduct() {
+    fetch("http://localhost:3000/products" + "/" + this.props.match.params.id, {
+      method: "DELETE"
+    })
+      .then(console.log(this.state.selectedId))
+      .then(res => {
+        return res.json();
+      })
+      .then(res => this.setState({ product: res }))
+      .then(() => this.props.history.push("/products"))
+      .catch(err => {
+        this.setState(state => {
+          return {
+            error: {
+              ...state.error,
+              show: true,
+              errorMsg: err
+            }
+          };
+        });
+      });
+  }
+
+  // // za EDIT
+  // FetchProducts() {
+  //   fetch("http://localhost:3000/products" + this.props.match.params.id)
+  //     .then(res => {
+  //       return res.json();
+  //     })
+  //     .then(res => this.setState({ product: res }))
+  //     .catch(err => {
+  //       this.setState(state => {
+  //         return {
+  //           error: {
+  //             ...state.error,
+  //             show: true,
+  //             errorMsg: err
+  //           }
+  //         };
+  //       });
+  //     });
+  // }
+
+  render() {
+    console.log(this.state);
     return (
       <section id="products_section">
         <div className="product_top">
@@ -25,7 +122,7 @@ export class Products extends React.Component {
             </select>
           </div>
         </div>
-        <Table />
+        <Table products={this.state.products} toggleAlert={this.toggleAlert} />
 
         <div className="buttons_bottom">
           <button className="new_calculation">new calculation</button> <br />
@@ -35,6 +132,30 @@ export class Products extends React.Component {
             </NavLink>
           </button>
         </div>
+
+        {!this.state.isHidden ? (
+          <div className="alert">
+            <div className="white_box">
+              <h1>Delete Product</h1>
+              <p>
+                You are about to delete this product. Are you sure you wish to
+                continue?
+              </p>
+              <br />
+              <div className="buttons_alert">
+                <button onClick={this.toggleAlert} className="cancel">
+                  cancel
+                </button>
+                <button
+                  onClick={this.DeleteProduct(this.state.selectedId)}
+                  className="delete"
+                >
+                  delete
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </section>
     );
   }

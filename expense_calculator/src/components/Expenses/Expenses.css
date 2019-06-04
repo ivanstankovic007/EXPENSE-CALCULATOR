@@ -3,19 +3,15 @@
 }
 
 .filter_months {
-  margin-left: 20px;
-  margin-top: 5%;
-  display: inline;
-}
-
-.filter_months:before {
-  content: "Choose Month:";
-  color: #000000;
+  padding-top: 5px;
+  padding-left: 20px;
+  float: left;
 }
 
 .buttons_expenses {
   margin-left: 7%;
   display: inline;
+  float: left;
 }
 
 .monthly {
@@ -42,8 +38,11 @@
 }
 
 .buttons_filter {
-  margin-top: 25px;
-  margin-bottom: 20px;
+  width: 80%;
+  height: 6%;
+  padding: 1%;
+  margin: auto;
+  float: left;
 }
 
 .total_bottom {
