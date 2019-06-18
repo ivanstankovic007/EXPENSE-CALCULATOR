@@ -89,7 +89,8 @@ export class Expenses extends React.Component {
                 monthly
               </button>
               <button
-                onClick={() => this.ChangeFilter("yearly")}
+                // onClick={()=> {this.ChangeFilter("yearly"); this.toggleFilter}}
+                onClick={this.toggleFilter}
                 className="yearly"
               >
                 yearly
@@ -97,39 +98,45 @@ export class Expenses extends React.Component {
             </div>
 
             <div className="filter_months">
-              {this.state.filterType === "yearly" ? (
-                <p className="exp-filter">Choose Year</p>
-              ) : (
-                <p className="exp-filter">Choose Month</p>
-              )}
-              <select className="select_products">
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-                <option>July</option>
-                <option>August</option>
-                <option>September</option>
-                <option>October</option>
-                <option>November</option>
-                <option>December</option>
-              </select>
-            </div>
+              <div className="paragraph_filter">
+                {this.state.filterType === "yearly" ? (
+                  <p className="exp-filter">Choose Year</p>
+                ) : (
+                    <p className="exp-filter">Choose Month</p>
+                  )}
+              </div>
+              <div className="select_months">
+                <select className="select_products">
+                  <option>January</option>
+                  <option>February</option>
+                  <option>March</option>
+                  <option>April</option>
+                  <option>May</option>
+                  <option>June</option>
+                  <option>July</option>
+                  <option>August</option>
+                  <option>September</option>
+                  <option>October</option>
+                  <option>November</option>
+                  <option>December</option>
+                </select>
+              </div>
 
-            <div className="filter_months">
-              <select className="select_products">
-                <option>2019</option>
-                <option>2018</option>
-              </select>
+              {!this.state.isHidden ? <div>
+                <select className="select_products">
+                  <option>2019</option>
+                  <option>2018</option>
+                </select>
+              </div> : null}
+
             </div>
           </div>
-        </div>
-        <Table products={this.state.products} />
+          <Table products={this.state.products} />
 
-        <div className="total_bottom">
-          <p>Total spent: 1205 den.</p>
+          <div className="total_bottom">
+            <p>Total spent: 1205 den.</p>
+          </div>
+
         </div>
       </section>
     );

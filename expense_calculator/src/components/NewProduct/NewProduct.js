@@ -36,6 +36,7 @@ export class NewProduct extends React.Component {
       body: JSON.stringify(information)
     })
       .then(res => console.log("PRODUCT RESULT: ", res))
+      .then((res) => window.location.reload(res))
       .catch(err => console.error(err));
   }
 

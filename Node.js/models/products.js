@@ -16,7 +16,8 @@ var productsSchema = new Schema({
   producttype: { type: String, required: true },
   purchasedate: { type: Date, required: true },
   price: { type: Number, required: true },
-  userID: { type: String }
+  userID: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+  // userID: { type: String }
 });
 
 var Product = mongoose.model("Product", productsSchema);

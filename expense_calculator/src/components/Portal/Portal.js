@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { Products } from "../Products/Products";
 import { Expenses } from "../Expenses/Expenses";
 import { NewProduct } from "../NewProduct/NewProduct";
+import { EditProduct } from "../EditProduct/EditProduct";
 
 export class Portal extends React.Component {
   render() {
@@ -11,7 +12,7 @@ export class Portal extends React.Component {
         <Route path="/products" component={Products} />
         <Route path="/expenses" component={Expenses} />
         <Route path="/newproduct" component={NewProduct} />
-        {/* <Route path="/edit/:id" component={EditProduct} /> */}
+        <Route path="/editproduct" component={EditProduct} />
       </section>
     );
   }

@@ -14,7 +14,7 @@ export class App extends React.Component {
         <Route path="/register" component={Register} />
         <Route
           exact
-          path="/(newproduct|products|expenses)/"
+          path="/(newproduct|products|expenses|editproduct)/"
           component={Header}
         />
         <Portal />

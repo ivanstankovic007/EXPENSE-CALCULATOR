@@ -9,29 +9,37 @@ export class Products extends React.Component {
 
     this.state = {
       products: [],
-      product: {},
       error: {
         show: false,
         errorMsg: ""
       },
       isHidden: true,
-      selectedId: {}
+      selectedId: ""
     };
 
     this.FetchProducts = this.FetchProducts.bind(this);
+    // this.FetchProduct = this.FetchProduct.bind(this);
     this.DeleteProduct = this.DeleteProduct.bind(this);
     this.toggleAlert = this.toggleAlert.bind(this);
+    this.toEditProduct = this.toEditProduct.bind(this)
   }
 
   componentDidMount() {
     this.FetchProducts();
+    // this.FetchProduct();
   }
 
-  toggleAlert() {
+  toEditProduct = (product) => () => {
+    this.props.history.push('/editproduct', { product });
+  }
+
+
+  toggleAlert(id) {
     this.setState(
       state => {
         return {
-          isHidden: !state.isHidden
+          isHidden: !state.isHidden,
+          selectedId: id
         };
       },
       () => {
@@ -42,7 +50,12 @@ export class Products extends React.Component {
 
   //get method
   FetchProducts() {
-    fetch("http://localhost:3000/products")
+    const access_token = localStorage.getItem("access_token")
+    fetch("http://localhost:3000/products", {
+      headers: {
+        access_token
+      }
+    })
       .then(res => {
         return res.json();
       })
@@ -60,17 +73,43 @@ export class Products extends React.Component {
       });
   }
 
+  // FetchProduct(id) {
+  //   fetch("http://localhost:3000/products" + id)
+  //     .then(res => {
+  //       return res.json();
+  //     })
+  //     .then(res => this.setState({ product: res }))
+  //     .catch(err => {
+  //       this.setState(state => {
+  //         return {
+  //           error: {
+  //             ...state.error,
+  //             show: true,
+  //             errorMsg: err
+  //           }
+  //         };
+  //       });
+  //     });
+  // }
+
+
   // za Delete
-  DeleteProduct() {
-    fetch("http://localhost:3000/products" + "/" + this.props.match.params.id, {
+  DeleteProduct(id) {
+    fetch("http://localhost:3000/products/" + id, {
       method: "DELETE"
     })
-      .then(console.log(this.state.selectedId))
       .then(res => {
         return res.json();
       })
-      .then(res => this.setState({ product: res }))
-      .then(() => this.props.history.push("/products"))
+      .then(res => {
+
+        this.setState({
+          product: res,
+          isHidden: true
+        });
+
+      })
+      .then((res) => window.location.reload(res))
       .catch(err => {
         this.setState(state => {
           return {
@@ -122,7 +161,7 @@ export class Products extends React.Component {
             </select>
           </div>
         </div>
-        <Table products={this.state.products} toggleAlert={this.toggleAlert} />
+        <Table products={this.state.products} toggleAlert={this.toggleAlert} toEditProduct={this.toEditProduct} />
 
         <div className="buttons_bottom">
           <button className="new_calculation">new calculation</button> <br />
@@ -147,7 +186,7 @@ export class Products extends React.Component {
                   cancel
                 </button>
                 <button
-                  onClick={this.DeleteProduct(this.state.selectedId)}
+                  onClick={() => this.DeleteProduct(this.state.selectedId)}
                   className="delete"
                 >
                   delete

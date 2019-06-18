@@ -1,8 +1,9 @@
 import React from "react";
 import "../Table/Table.css";
 
+
 export class Table extends React.Component {
-  render() {
+ render() {
     return (
       <section id="table_section">
         <div className="table">
@@ -24,8 +25,9 @@ export class Table extends React.Component {
                 <td>{product.purchasedate}</td>
                 <td>{product.price} den.</td>
                 <td className="buttons_rows">
-                  <button className="edit" /> &nbsp;&nbsp;
-                  <button onClick={this.props.toggleAlert} className="trash" />
+                  <button onClick={this.props.toEditProduct(product)} className="edit">
+                  </button>&nbsp;&nbsp;
+                  <button onClick={() => this.props.toggleAlert(product._id)} className="trash" />
                 </td>
                 {/* <NavLink to={"/edit/" + item.id}>icon</NavLink> */}
               </tr>
