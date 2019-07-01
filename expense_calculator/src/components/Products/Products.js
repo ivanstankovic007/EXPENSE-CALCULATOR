@@ -14,11 +14,10 @@ export class Products extends React.Component {
         errorMsg: ""
       },
       isHidden: true,
-      selectedId: ""
+      selectedId: {}
     };
 
     this.FetchProducts = this.FetchProducts.bind(this);
-    // this.FetchProduct = this.FetchProduct.bind(this);
     this.DeleteProduct = this.DeleteProduct.bind(this);
     this.toggleAlert = this.toggleAlert.bind(this);
     this.toEditProduct = this.toEditProduct.bind(this)
@@ -26,8 +25,42 @@ export class Products extends React.Component {
 
   componentDidMount() {
     this.FetchProducts();
-    // this.FetchProduct();
   }
+
+  //get method
+  FetchProducts() {
+    var access_token = localStorage.getItem("access_token")
+    if (!access_token) {
+      this.props.history.push("/")
+    }
+
+    fetch("http://localhost:3000/products", {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${access_token}`,
+        'Access-Control-Allow-Origin': '*',
+        'mode': 'no-cors'
+      }
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(res => this.setState({
+        products: res
+      }))
+      .catch(err => {
+        this.setState(state => {
+          return {
+            error: {
+              ...state.error,
+              show: true,
+              errorMsg: err
+            }
+          };
+        });
+      });
+  }
+
 
   toEditProduct = (product) => () => {
     this.props.history.push('/editproduct', { product });
@@ -48,31 +81,7 @@ export class Products extends React.Component {
     );
   }
 
-  //get method
-  FetchProducts() {
-    const access_token = localStorage.getItem("access_token")
-    fetch("http://localhost:3000/products", {
-      headers: {
-        access_token
-      }
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(res => this.setState({ products: res }))
-      .catch(err => {
-        this.setState(state => {
-          return {
-            error: {
-              ...state.error,
-              show: true,
-              errorMsg: err
-            }
-          };
-        });
-      });
-  }
-
+  
   // FetchProduct(id) {
   //   fetch("http://localhost:3000/products" + id)
   //     .then(res => {

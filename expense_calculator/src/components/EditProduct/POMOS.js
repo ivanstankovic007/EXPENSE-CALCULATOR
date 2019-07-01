@@ -1,187 +1,22 @@
+Skip to content
+ 
+Search or jump to…
 
-import React from "react";
-import {NavLink} from "react-router-dom"
-import Axios from "axios"
-
-import "./Login.css"
-
-export class Login extends React.Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            email : "",
-            password : ""
-        }
-
-        this.HandleFieldsChange = this.HandleFieldsChange.bind(this);
-        this.logIn = this.logIn.bind(this)
-
-    }
-
-
-    logIn() {
-        let data = {
-          "email": this.state.email,
-          "password": this.state.password
-        }
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@ivanstankovic007 
+0
+0 0 Laze997/NodeJS
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Security  Insights
+NodeJS/index.js
+@Laze997 Laze997 -auth fix
+ebb5a3c 1 hour ago
+236 lines (193 sloc)  6.12 KB
     
-        var formData = new FormData();
-        formData.append('email', this.state.email);
-        formData.append('password', this.state.password);
     
-        Axios.post("http://localhost:3000/", {
-          email: this.state.email,
-          password: this.state.password
-        },
-        { headers: {"Authorization" : "Bearer" + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxhemFyc3RlcDEyM0BnbWFpbC5jb20iLCJpYXQiOjE1NjA0MzQ0MTV9.gCFwq2q4waQHoRyk7jLZM9Pk7VT5XYxySBReBKXZpo0"} }
-       ).then( res => {
-          this.props.history.push('/products')
-        })
-          .catch(err => console.log(err))
-    
-      }
-    
-
-    HandleFieldsChange(e) {
-        this.setState({
-          [e.target.name]: e.target.value
-        })
-      }
-
-    render() {
-        return (
-            <section id="login">
-                <div className="center-div">
-                    <div>
-                        <form className="login-form">
-                            <label className="login-label" htmlFor="email">E-mail</label>
-                            <input onInput={this.HandleFieldsChange} type="email" name="email" className="login-input" />
-                            <label className="login-label" htmlFor="password">Password</label>
-                            <input onInput={this.HandleFieldsChange} type="password" name="password" className="login-input" />
-                            <button onClick={this.logIn} className="btn">SIGN IN</button>
-                        </form>
-                        <p className="text">Or if you don't have an account,<NavLink className="link" to="/register"> Register</NavLink></p>
-                    </div>
-                </div>
-            </section>
-        )
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-import React from "react";
-import { NavLink } from "react-router-dom"
-
-import "./Register.css"
-import Axios from "axios";
-
-export class Register extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      firstname: "",
-      lastname: "",
-      email: "",
-      date: "",
-      telephone: "",
-      country: "",
-      password: "",
-    }
-
-    this.HandleFieldsChange = this.HandleFieldsChange.bind(this);
-    this.RegisterUser = this.RegisterUser.bind(this);
-  }
-
-  RegisterUser() {
-    let data = {
-      "firstname": this.state.firstname,
-      "lastname": this.state.lastname,
-      "email": this.state.email,
-      "date": this.state.date,
-      "telephone": this.state.telephone,
-      "country": this.state.country,
-      "password": this.state.password,
-    }
-
-    var formData = new FormData();
-    formData.append('firstname', this.state.firstname);
-    formData.append('lastname', this.state.lastname);
-    formData.append('email', this.state.email);
-    formData.append('date', this.state.date);
-    formData.append('telephone', this.state.telephone);
-    formData.append('country', this.state.country);
-    formData.append('password', this.state.password);
-
-    Axios.post("http://localhost:3000/register", {
-      firstname: this.state.firstname,
-      lastname: this.state.lastname,
-      email: this.state.email,
-      date: this.state.date,
-      telephone: this.state.telephone,
-      country: this.state.country,
-      password: this.state.password
-    }).then( res => {
-      this.props.history.push('/')
-    })
-      .catch(err => console.log(err))
-
-  }
-
-  HandleFieldsChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-
-  render() {
-
-    return (
-      <section id="register">
-        <div className="center-div">
-          <div className="login-container-margintop">
-            <div className="login-form">
-              <label className="login-label" htmlFor="firstname">First Name</label>
-              <input onInput={this.HandleFieldsChange} type="text" name="firstname" className="login-input" />
-              <label className="login-label" htmlFor="lastname">Last Name</label>
-              <input onInput={this.HandleFieldsChange} type="text" name="lastname" className="login-input" />
-              <label className="login-label" htmlFor="email">Email</label>
-              <input onInput={this.HandleFieldsChange} type="email" name="email" className="login-input" />
-              <label className="login-label" htmlFor="date">Date of birth</label>
-              <input onInput={this.HandleFieldsChange} type="date" name="date" className="login-input" />
-              <label className="login-label" htmlFor="telephone">Telephone</label>
-              <input onInput={this.HandleFieldsChange} type="number" name="telephone" className="login-input" />
-              <label className="login-label" htmlFor="country">Country</label>
-              <input onInput={this.HandleFieldsChange} type="text" name="country" className="login-input" />
-              <label className="login-label" htmlFor="password">Password</label>
-              <input onInput={this.HandleFieldsChange} type="password" name="password" className="login-input" />
-              <button onClick={this.RegisterUser} className="btn">REGISTER</button>
-            </div>
-            <p className="text">Or if you have an account, <NavLink className="link" to="/"> Log In </NavLink></p>
-          </div>
-
-
-
-
-        </div>
-      </section>
-    )
-  }
-}
-
-
 const Product = require("./models/product");
 const express = require("express");
 var api = express();
@@ -319,22 +154,13 @@ api.post("/newproduct", verifyToken, (req, res, next) => {
                     next(err)
                 }
                 res.send("Product Created")
+                authData
             })
-            authData
+            
         }
     })
 })
 
-
-
-
-    //     newproduct.save(function(err){
-    //         if(err){
-    //             return next(err);
-    //         }
-    //         res.send("New Product saved!");
-    //     })
-    // })
 
     api.get("/products", verifyToken, (req, res, next) => {
         jwt.verify(req.token, jwtSecret, (err, authData) => {
@@ -348,20 +174,13 @@ api.post("/newproduct", verifyToken, (req, res, next) => {
                     }
                     res.send(products);
                   });
+       
                   authData
             }
         })
 
     })
 
-    // jwt.verify(req.token, "secretkey", (err, authData) => {
-    //     if(err){
-    //         res.send(403)
-    //     }
-    //     else{
-    //         authData
-    //     }
-    // })
 
     api.get("/expenses", verifyToken, (req, res, next) => {
         jwt.verify(req.token, jwtSecret, (err, authData) => {
@@ -381,24 +200,36 @@ api.post("/newproduct", verifyToken, (req, res, next) => {
     })
 
 
-    api.delete('/products/:id', verifyToken, (req, res, next) => {
-        jwt.verify(req.token, jwtSecret, (err, authData) => {
-            if(err){
-                res.send(403)
+    // api.delete('/products/:id', (req, res, next) => {
+    //     // jwt.verify(req.token, jwtSecret, (err, authData) => {
+    //     //     if(err){
+    //     //         res.send(403)
+    //     //     }
+    //         // else{
+    //             Product.findOneAndDelete({ _id: req.params.id }, function (err) {
+    //                 if (err) {
+    //                     return next(err)
+    //                 }
+    //                 Product.find({}).then(data => res.send(data));
+    //                 // authData
+    //             });
+                
+    //     //     }
+    //     // })
+        
+        
+        
+    // })
+
+    api.delete('/products/:id', (req, res, next) => {
+
+        Product.findOneAndDelete({ _id: req.params.id }, function (err) {
+            if (err) {
+                return next(err)
             }
-            else{
-                Product.findOneAndDelete({ _id: req.params.id }, function (err) {
-                    if (err) {
-                        return next(err)
-                    }
-                    Product.find({}).then(data => res.send(data))
-                });
-                authData
-            }
-        })
-        
-        
-        
+            Product.find({}).then(data => res.send(data));
+        });
+
     })
 
     api.patch("/editproduct/:id", verifyToken, (req, res, next) => {
@@ -421,3 +252,4 @@ api.post("/newproduct", verifyToken, (req, res, next) => {
         
         
     })
+

@@ -19,7 +19,7 @@ export class NewProduct extends React.Component {
   }
 
   AddProduct() {
-    let information = {
+    let newproduct = {
       productname: this.state.productname,
       productdescription: this.state.productdescription,
       producttype: this.state.producttype,
@@ -27,13 +27,13 @@ export class NewProduct extends React.Component {
       price: this.state.price
     };
 
-    fetch("http://localhost:3000/addproduct", {
+    fetch("http://localhost:3000/newproduct", {
       method: "post",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(information)
+      body: JSON.stringify(newproduct)
     })
       .then(res => console.log("PRODUCT RESULT: ", res))
       .then((res) => window.location.reload(res))

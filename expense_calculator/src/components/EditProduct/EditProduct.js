@@ -20,14 +20,32 @@ export class EditProduct extends React.Component {
     this.handleField = this.handleField.bind(this);
   }
 
- 
+
+
+  // EditProduct() {
+  //   const access_token = localStorage.getItem('access_token')
+  //   Axios.patch('http://localhost:3000/editproduct/' + this.state.product._id, this.state.product, {
+  //     headers: {
+  //       access_token
+  //     }
+  //   })
+  //     .then(res => {
+
+  //       this.props.history.push('/products')
+  //     })
+  //     .catch(err => console.log(err))
+
+  // }
 
   EditProduct(){
     const access_token = localStorage.getItem('access_token')
+
     Axios.patch('http://localhost:3000/editproduct/' + this.state.product._id , this.state.product, {
-        headers: {
-            access_token
-        }
+        headers:{
+            'Authorization': `Bearer ${access_token}`,
+            'Access-Control-Allow-Origin': '*',
+            'mode': 'cors'
+          }
     })
     .then( res => {
         
@@ -36,12 +54,12 @@ export class EditProduct extends React.Component {
         .catch(err => console.log(err))
 
 }
-  
+
 
   handleField(e) {
     let newEditProduct = { ...this.state.product, [e.target.name]: e.target.value };
     this.setState({
-        product: newEditProduct
+      product: newEditProduct
     })
   }
 

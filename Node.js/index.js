@@ -5,20 +5,21 @@ const db = require("./connection");
 const User = require("./models/users");
 const myParser = require("body-parser");
 var cors = require("cors");
+var jwt = require("jsonwebtoken");
+var jwtSecret = "secretkey";
+var bcrypt = require("bcrypt");
 
 app.use(myParser.urlencoded({ extended: true }));
 app.use(myParser.json());
 const session = require("express-session");
 app.use(session({ secret: "test" }));
-// api.use(cors());
-var jwt = require("jsonwebtoken");
-var jwtSecret = "secretkey";
-var bcrypt = require("bcrypt");
+app.use(cors());
+
 
 let allowCrossDomain = function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PATCH, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PATCH, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   next();
 };
 app.use(allowCrossDomain);
@@ -102,13 +103,6 @@ app.post("/register", (req, res, next) => {
       }
     }
   })
-
-  // user.save(function (err) {
-  //   if (err) {
-  //     return next(err);
-  //   }
-  //   res.send("User saved");
-  // });
 });
 
 // app.get("/", (req, res) => {
@@ -126,51 +120,53 @@ app.post("/register", (req, res, next) => {
 //   //return response to FE
 // });
 
-app.post("/addProduct", verifyToken, (req, res, next) => {
+app.post("/newproduct", (req, res, next) => {
   var productname = req.body.productname;
   var productdescription = req.body.productdescription;
   var producttype = req.body.producttype;
   var purchasedate = req.body.purchasedate;
   var price = req.body.price;
-  // var userEmail = req.session.email;
+  var userEmail = req.session.email;
 
-  let product = new Product({
+  let newproduct = new Product({
     productname: productname,
     productdescription: productdescription,
     producttype: producttype,
     purchasedate: purchasedate,
     price: price,
-    // userEmail: userEmail
+    userEmail: userEmail
   });
 
-  jwt.verify(req.token, jwtSecret, (err, authData) => {
-    if (err) {
-      res.send(403)
-    }
-    else {
-      product.save((err) => {
-        if (err) {
-          next(err)
-        }
-        res.send("Product Created")
-      })
-      authData
-    }
-  })
-
-  // product.save(function (err) {
+  // jwt.verify(req.token, jwtSecret, (err, authData) => {
   //   if (err) {
-  //     return next(err);
+  //     res.send(403)
   //   }
-  //   res.send("Product Added");
-  // });
+  //   else {
+  //     newproduct.save((err) => {
+  //       if (err) {
+  //         next(err)
+  //       }
+  //       res.send("Product Created")
+  //     })
+  //     authData
+  //   }
+  // })
 
-  //send response to FE
+
+  newproduct.save(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.send("Product Added");
+  });
 });
 
-app.get("/addProduct", (req, res) => {
-  res.send("New Product");
-});
+//send response to FE
+
+
+// app.get("/addProduct", (req, res) => {
+//   res.send("New Product");
+// });
 
 // app.get("/products", (req, res, next) => {
 //   Product.find({}, function (err, products) {
@@ -183,18 +179,18 @@ app.get("/addProduct", (req, res) => {
 
 app.get("/products", verifyToken, (req, res, next) => {
   jwt.verify(req.token, jwtSecret, (err, authData) => {
-      if(err){
-          res.send(403)
-      }
-      else{
-          Product.find({}, function(err, products) {
-              if (err) {
-                return next(err);
-              }
-              res.send(products);
-            });
-            authData
-      }
+    if (err) {
+      res.send(403)
+    }
+    else {
+      Product.find({}, function (err, products) {
+        if (err) {
+          return next(err);
+        }
+        res.send(products);
+      });
+      authData
+    }
   })
 
 })
@@ -208,8 +204,27 @@ app.get("/products", verifyToken, (req, res, next) => {
 //   });
 // });
 
+
+
+app.get("/expenses", verifyToken, (req, res, next) => {
+  jwt.verify(req.token, jwtSecret, (err, authData) => {
+    if (err) {
+      res.send(403)
+    }
+    else {
+      Product.find({}, function (err, products) {
+        if (err) {
+          return next(err);
+        }
+        res.send(products);
+      });
+      authData
+    }
+  })
+})
+
 // app.patch("/editproduct/:id", (req, res, next) => {
-//   Product.findOneAndUpdate({ _id: req.params.id}, req.body, function(err) {
+//   Product.findOneAndUpdate({ _id: req.params._id}, req.body, function(err) {
 //     if (err) {
 //       return next(err); 
 //     }
@@ -219,50 +234,66 @@ app.get("/products", verifyToken, (req, res, next) => {
 
 app.patch("/editproduct/:id", verifyToken, (req, res, next) => {
   jwt.verify(req.token, jwtSecret, (err, authData) => {
-      if(err){
-          res.send(403)
-      }
-      else{
-          Product.findByIdAndUpdate({ _id: req.params._id }, (err) => {
-              if (err) {
-                  return next(err)
-              }
-              res.send("Product Edited")
-              console.log(res)
-          })
-          authData
-      }
+    if (err) {
+      res.send(403)
+    }
+    else {
+      Product.findByIdAndUpdate({ _id: req.params.id }, req.body, function (err) {
+        console.log(res)
+        if (err) {
+          return next(err)
+        }
+        res.send("Product Edited")
+        console.log(res)
+      })
+      authData
+    }
   })
-
-  
-  
 })
 
-// app.delete("/products/:id", (req, res, next) => {
-//   Product.deleteOne({ _id: req.params.id }, function (err) {
-//     if (err) {
-//       return next(err);
-//     }
-//     Product.find({}).then(data => res.send(data))
-//   });
-// });
+// app.patch('/editproduct/:id', (req, res, next) => {
 
-app.delete('/products/:id', verifyToken, (req, res, next) => {
-  jwt.verify(req.token, jwtSecret, (err, authData) => {
-      if(err){
-          res.send(403)
-      }
-      else{
-          Product.deleteOne({ _id: req.params.id }, function (err) {
-              if (err) {
-                  return next(err)
-              }
-              Product.find({}).then(data => res.send(data))
-          });
-          authData
-      }
-  })
-  
-  
-  
-})
+//   var productname = req.body.productname;
+//   var productdescription = req.body.productdescription;
+//   var producttype = req.body.producttype;
+//   var purchasedate = req.body.purchasedate;
+//   var price = req.body.price;
+
+//       Product.findByIdAndUpdate({ _id: req.params._id }, {productname, productdescription, producttype, purchasedate, price})
+//       .then(res => {
+//           res.send("Product Edited")
+//       }).catch(err => {
+//           console.log(err)
+//           res.send("Cannot edit product")
+//       })
+//   })
+
+
+app.delete("/products/:id", (req, res, next) => {
+  Product.deleteOne({ _id: req.params.id }, function (err) {
+    if (err) {
+      return next(err);
+    }
+    Product.find({}).then(data => res.send(data))
+  });
+});
+
+// app.delete('/products/:id', verifyToken, (req, res, next) => {
+//   jwt.verify(req.token, jwtSecret, (err, authData) => {
+//       if(err){
+//           res.send(403)
+//       }
+//       else{
+//           Product.deleteOne({ _id: req.params.id }, function (err) {
+//               if (err) {
+//                   return next(err)
+//               }
+//               Product.find({}).then(data => res.send(data))
+//           });
+//           authData
+//       }
+//   })
+
+
+
+// })

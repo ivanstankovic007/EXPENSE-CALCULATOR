@@ -1,6 +1,6 @@
 import React from "react";
 import "./Expenses.css";
-import { Table } from "../Table/Table";
+import { TableExpenses } from "../TableExpenses/TableExpenses";
 
 export class Expenses extends React.Component {
   constructor(props) {
@@ -9,7 +9,6 @@ export class Expenses extends React.Component {
     this.state = {
       filterType: "monthly",
       products: [],
-      product: {},
       error: {
         show: false,
         errorMsg: ""
@@ -54,11 +53,25 @@ export class Expenses extends React.Component {
   }
 
   FetchProducts() {
-    fetch("http://localhost:3000/products")
+    var access_token = localStorage.getItem("access_token")
+    if (!access_token) {
+      this.props.history.push("/")
+    }
+
+    fetch("http://localhost:3000/expenses", {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${access_token}`,
+        'Access-Control-Allow-Origin': '*',
+        'mode': 'no-cors'
+      }
+    })
       .then(res => {
         return res.json();
       })
-      .then(res => this.setState({ products: res }))
+      .then(res => this.setState({
+        products: res
+      }))
       .catch(err => {
         this.setState(state => {
           return {
@@ -71,6 +84,29 @@ export class Expenses extends React.Component {
         });
       });
   }
+
+  // toEditProduct = (product) => () => {
+  //   this.props.history.push('/editproduct', { product });
+  // }
+
+  // FetchProducts() {
+  //   fetch("http://localhost:3000/expenses")
+  //     .then(res => {
+  //       return res.json();
+  //     })
+  //     .then(res => this.setState({ products: res }))
+  //     .catch(err => {
+  //       this.setState(state => {
+  //         return {
+  //           error: {
+  //             ...state.error,
+  //             show: true,
+  //             errorMsg: err
+  //           }
+  //         };
+  //       });
+  //     });
+  // }
 
   render() {
     return (
@@ -131,7 +167,7 @@ export class Expenses extends React.Component {
 
             </div>
           </div>
-          <Table products={this.state.products} />
+          <TableExpenses products={this.state.products} />
 
           <div className="total_bottom">
             <p>Total spent: 1205 den.</p>
