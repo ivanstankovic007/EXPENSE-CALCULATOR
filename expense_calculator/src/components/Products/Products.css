@@ -10,11 +10,6 @@
   margin-top: -20px;
 }
 
-.filter_products:before {
-  content: "Filter by:";
-  color: #000000;
-}
-
 .select_products {
   height: 35px;
   background: #fff;
@@ -23,6 +18,13 @@
   border-radius: 5px;
   margin-bottom: 20px;
   padding: 5px;
+}
+
+.filter{
+  float: right;
+  display: inline;
+  margin-right: 18%;
+  margin-top: -50px;
 }
 
 /* .trash {

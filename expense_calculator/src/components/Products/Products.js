@@ -20,7 +20,8 @@ export class Products extends React.Component {
     this.FetchProducts = this.FetchProducts.bind(this);
     this.DeleteProduct = this.DeleteProduct.bind(this);
     this.toggleAlert = this.toggleAlert.bind(this);
-    this.toEditProduct = this.toEditProduct.bind(this)
+    this.toEditProduct = this.toEditProduct.bind(this);
+    this.productFilter = this.productFilter.bind(this)
   }
 
   componentDidMount() {
@@ -152,6 +153,48 @@ export class Products extends React.Component {
   //     });
   // }
 
+  productFilter(e) {
+    var type = e.target.value;
+    var products = this.state.products;
+
+    if (type === 'lowestPrice') {
+        this.setState({
+            products: products.sort((x, y) => {
+                if (x.price <= y.price) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            })
+        })
+    }
+
+    if (type === 'highestPrice') {
+        this.setState({
+            products: products.sort((x, y) => {
+                if (x.price >= y.price) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            })
+        })
+    }
+
+
+    if (type === "latestPurchase") {
+        this.setState({
+            products: products.sort((x, y) => {
+                if (x.date >= y.date) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            })
+        })
+    }
+}
+
   render() {
     console.log(this.state);
     return (
@@ -162,13 +205,14 @@ export class Products extends React.Component {
           </div>
 
           <div className="filter_products">
-            <select className="select_products">
-              <option>Year</option>
-              <option>Highest Price</option>
-              <option>Lowest Price</option>
-              <option>Latest Purchases</option>
+            <select className="select_products" onChange={this.productFilter}>
+              <option value="0">Year</option>
+              <option value="highestPrice">Highest Price</option>
+              <option value="lowestPrice">Lowest Price</option>
+              <option value="latestPurchase">Latest Purchases</option>
             </select>
           </div>
+          <p className="filter">Filter by:</p>
         </div>
         <Table products={this.state.products} toggleAlert={this.toggleAlert} toEditProduct={this.toEditProduct} />
 

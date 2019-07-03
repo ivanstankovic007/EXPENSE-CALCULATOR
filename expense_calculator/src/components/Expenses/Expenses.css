@@ -14,7 +14,7 @@
   float: left;
 }
 
-.monthly {
+.monthly1 {
   background: #1dd1a1;
   color: #fff;
   font-size: 15px;
@@ -25,7 +25,7 @@
   width: 150px;
 }
 
-.yearly {
+.yearly1 {
   background: #c9e5dd;
   color: #fff;
   font-size: 15px;
@@ -85,4 +85,8 @@
     padding-top: 5px;
     padding-left: 20px;
     float: right;
+}
+
+.total_text{
+  margin-right: 10%;
 }
