@@ -68,23 +68,19 @@
 }
 
 .select_products{
-  height: 35px;
-    Background: #fff;
-    Border: 2px solid;
     Border-color: #C6C6C6;
     color: #C6C6C6;
     border-radius: 5px 5px 5px 5px;
     Box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.17);
+    height: 35px;
     width: 160px;
     float: left;
     cursor: pointer;
-    margin-left: 160px;
-    margin-top: -40px;
+    margin-left: 15px;
+    margin-top: 5px;
     font-family: 'Roboto', sans-serif;
-    vertical-align: center;
-    padding-top: 5px;
-    padding-left: 20px;
-    float: right;
+    Background: #fff;
+    Border: 2px solid;
 }
 
 .total_text{

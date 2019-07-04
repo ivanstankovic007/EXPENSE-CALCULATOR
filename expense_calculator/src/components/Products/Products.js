@@ -28,7 +28,6 @@ export class Products extends React.Component {
     this.FetchProducts();
   }
 
-  //get method
   FetchProducts() {
     var access_token = localStorage.getItem("access_token")
     if (!access_token) {
@@ -82,28 +81,6 @@ export class Products extends React.Component {
     );
   }
 
-  
-  // FetchProduct(id) {
-  //   fetch("http://localhost:3000/products" + id)
-  //     .then(res => {
-  //       return res.json();
-  //     })
-  //     .then(res => this.setState({ product: res }))
-  //     .catch(err => {
-  //       this.setState(state => {
-  //         return {
-  //           error: {
-  //             ...state.error,
-  //             show: true,
-  //             errorMsg: err
-  //           }
-  //         };
-  //       });
-  //     });
-  // }
-
-
-  // za Delete
   DeleteProduct(id) {
     fetch("http://localhost:3000/products/" + id, {
       method: "DELETE"
@@ -132,26 +109,6 @@ export class Products extends React.Component {
         });
       });
   }
-
-  // // za EDIT
-  // FetchProducts() {
-  //   fetch("http://localhost:3000/products" + this.props.match.params.id)
-  //     .then(res => {
-  //       return res.json();
-  //     })
-  //     .then(res => this.setState({ product: res }))
-  //     .catch(err => {
-  //       this.setState(state => {
-  //         return {
-  //           error: {
-  //             ...state.error,
-  //             show: true,
-  //             errorMsg: err
-  //           }
-  //         };
-  //       });
-  //     });
-  // }
 
   productFilter(e) {
     var type = e.target.value;
@@ -185,7 +142,7 @@ export class Products extends React.Component {
     if (type === "latestPurchase") {
         this.setState({
             products: products.sort((x, y) => {
-                if (x.date >= y.date) {
+                if (x.purchasedate >= y.purchasedate) {
                     return -1;
                 } else {
                     return 1;
@@ -206,7 +163,7 @@ export class Products extends React.Component {
 
           <div className="filter_products">
             <select className="select_products" onChange={this.productFilter}>
-              <option value="0">Year</option>
+              <option value="0"></option>
               <option value="highestPrice">Highest Price</option>
               <option value="lowestPrice">Lowest Price</option>
               <option value="latestPurchase">Latest Purchases</option>

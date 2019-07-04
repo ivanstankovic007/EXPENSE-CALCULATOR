@@ -105,21 +105,6 @@ app.post("/register", (req, res, next) => {
   })
 });
 
-// app.get("/", (req, res) => {
-//   res.send("Hello");
-// });
-
-// app.post("/login", (req, res) => {
-//   var email = req.body.emailLogin;
-//   var pass = req.body.passLogin;
-
-//   //database checks
-
-//   req.session.user = email;
-
-//   //return response to FE
-// });
-
 app.post("/newproduct", (req, res, next) => {
   var productname = req.body.productname;
   var productdescription = req.body.productdescription;
@@ -137,22 +122,6 @@ app.post("/newproduct", (req, res, next) => {
     userEmail: userEmail
   });
 
-  // jwt.verify(req.token, jwtSecret, (err, authData) => {
-  //   if (err) {
-  //     res.send(403)
-  //   }
-  //   else {
-  //     newproduct.save((err) => {
-  //       if (err) {
-  //         next(err)
-  //       }
-  //       res.send("Product Created")
-  //     })
-  //     authData
-  //   }
-  // })
-
-
   newproduct.save(function (err) {
     if (err) {
       return next(err);
@@ -160,22 +129,6 @@ app.post("/newproduct", (req, res, next) => {
     res.send("Product Added");
   });
 });
-
-//send response to FE
-
-
-// app.get("/addProduct", (req, res) => {
-//   res.send("New Product");
-// });
-
-// app.get("/products", (req, res, next) => {
-//   Product.find({}, function (err, products) {
-//     if (err) {
-//       return next(err);
-//     }
-//     res.send(products);
-//   });
-// });
 
 app.get("/products", verifyToken, (req, res, next) => {
   jwt.verify(req.token, jwtSecret, (err, authData) => {
@@ -195,17 +148,6 @@ app.get("/products", verifyToken, (req, res, next) => {
 
 })
 
-// app.put("/products/:id", (req, res, next) => {
-//   Product.findByIdAndUpdate(req.params.id, req.body, function(err) {
-//     if (err) {
-//       return next(err);
-//     }
-//     res.send("Product updated.");
-//   });
-// });
-
-
-
 app.get("/expenses", verifyToken, (req, res, next) => {
   jwt.verify(req.token, jwtSecret, (err, authData) => {
     if (err) {
@@ -222,15 +164,6 @@ app.get("/expenses", verifyToken, (req, res, next) => {
     }
   })
 })
-
-// app.patch("/editproduct/:id", (req, res, next) => {
-//   Product.findOneAndUpdate({ _id: req.params._id}, req.body, function(err) {
-//     if (err) {
-//       return next(err); 
-//     }
-//     res.send("Product updated.");
-//   });
-// });
 
 app.patch("/editproduct/:id", verifyToken, (req, res, next) => {
   jwt.verify(req.token, jwtSecret, (err, authData) => {
@@ -251,24 +184,6 @@ app.patch("/editproduct/:id", verifyToken, (req, res, next) => {
   })
 })
 
-// app.patch('/editproduct/:id', (req, res, next) => {
-
-//   var productname = req.body.productname;
-//   var productdescription = req.body.productdescription;
-//   var producttype = req.body.producttype;
-//   var purchasedate = req.body.purchasedate;
-//   var price = req.body.price;
-
-//       Product.findByIdAndUpdate({ _id: req.params._id }, {productname, productdescription, producttype, purchasedate, price})
-//       .then(res => {
-//           res.send("Product Edited")
-//       }).catch(err => {
-//           console.log(err)
-//           res.send("Cannot edit product")
-//       })
-//   })
-
-
 app.delete("/products/:id", (req, res, next) => {
   Product.deleteOne({ _id: req.params.id }, function (err) {
     if (err) {
@@ -277,23 +192,3 @@ app.delete("/products/:id", (req, res, next) => {
     Product.find({}).then(data => res.send(data))
   });
 });
-
-// app.delete('/products/:id', verifyToken, (req, res, next) => {
-//   jwt.verify(req.token, jwtSecret, (err, authData) => {
-//       if(err){
-//           res.send(403)
-//       }
-//       else{
-//           Product.deleteOne({ _id: req.params.id }, function (err) {
-//               if (err) {
-//                   return next(err)
-//               }
-//               Product.find({}).then(data => res.send(data))
-//           });
-//           authData
-//       }
-//   })
-
-
-
-// })

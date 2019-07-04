@@ -8,7 +8,6 @@ export class Expenses extends React.Component {
     super(props);
 
     this.state = {
-      // filterType: "monthly",
       products: [],
       error: {
         show: false,
@@ -16,10 +15,8 @@ export class Expenses extends React.Component {
       },
       total: "",
       selected: "monthly"
-      // isHidden: true
     };
 
-    // this.ChangeFilter = this.ChangeFilter.bind(this);
     this.FetchProducts = this.FetchProducts.bind(this);
     this.totalSum = this.totalSum.bind(this);
     this.setYearly = this.setYearly.bind(this);
@@ -31,21 +28,6 @@ export class Expenses extends React.Component {
   componentDidMount() {
     this.FetchProducts();
   }
-
-  // ChangeFilter(type) {
-  //   switch (type) {
-  //     case "monthly":
-  //       this.setState({
-  //         filterType: "monthly"
-  //       });
-  //       break;
-  //     case "yearly":
-  //       this.setState({
-  //         filterType: "yearly"
-  //       });
-  //       break;
-  //   }
-  // }
 
   totalSum() {
     var totalPrice = this.state.products.reduce(function (prev, total) {
@@ -70,8 +52,8 @@ export class Expenses extends React.Component {
   monthlyFilter(e) {
     let months = e.target.value
 
-    const filterProduct = this.state.Products.filter((product) => {
-      if (String(moment(product.date).month()) === months) {
+    let filterProduct = this.state.allProducts.filter((product) => {
+      if (String(moment(product.purchasedate).month()) === months) {
         return true;
       }
       return false;
@@ -79,8 +61,6 @@ export class Expenses extends React.Component {
     this.setState({
       products: filterProduct
     })
-
-
 
     if (months === "products") {
       return this.setState({
@@ -92,8 +72,8 @@ export class Expenses extends React.Component {
   yearlyFilter(e) {
     let years = e.target.value
 
-    const filterProducts = this.state.allProducts.filter((product) => {
-      if (String(moment(product.date).years()) === years) {
+    let filterProducts = this.state.allProducts.filter((product) => {
+      if (String(moment(product.purchasedate).year()) === years) {
         return true;
       }
       return false;
@@ -108,19 +88,6 @@ export class Expenses extends React.Component {
       })
     }
   }
-
-  // toggleFilter() {
-  //   this.setState(
-  //     state => {
-  //       return {
-  //         isHidden: !state.isHidden
-  //       };
-  //     },
-  //     () => {
-  //       console.log("IS HIDDEN: ", this.state.isHidden);
-  //     }
-  //   );
-  // }
 
   FetchProducts() {
     var access_token = localStorage.getItem("access_token")
@@ -140,7 +107,8 @@ export class Expenses extends React.Component {
         return res.json();
       })
       .then(res => this.setState({
-        products: res
+        products: res,
+        allProducts: res
       }))
       .catch(err => {
         this.setState(state => {
@@ -155,29 +123,6 @@ export class Expenses extends React.Component {
       });
   }
 
-  // toEditProduct = (product) => () => {
-  //   this.props.history.push('/editproduct', { product });
-  // }
-
-  // FetchProducts() {
-  //   fetch("http://localhost:3000/expenses")
-  //     .then(res => {
-  //       return res.json();
-  //     })
-  //     .then(res => this.setState({ products: res }))
-  //     .catch(err => {
-  //       this.setState(state => {
-  //         return {
-  //           error: {
-  //             ...state.error,
-  //             show: true,
-  //             errorMsg: err
-  //           }
-  //         };
-  //       });
-  //     });
-  // }
-
   render() {
     return (
       <section id="expenses_section">
@@ -189,37 +134,25 @@ export class Expenses extends React.Component {
           <div className="buttons_filter">
             <div className="buttons_expenses">
               <button
-                // onClick={() => this.ChangeFilter("monthly")}
-                // className="monthly"
                 className={(this.state.selected === "monthly") ? "monthly1" : "yearly1"} onClick={this.setMonthly}
               >
                 monthly
               </button>
               <button
-
-                // onClick={this.toggleFilter}
-                // className="yearly"
                 className={(this.state.selected === "yearly") ? "monthly1" : "yearly1"} onClick={this.setYearly}
               >
                 yearly
               </button>
             </div>
-            
+
 
             <div className="filter_months">
-              <div className="paragraph_filter">
-                {this.state.filterType === "yearly" ? (
-                  <p className="exp-filter">Choose Year</p>
-                ) : (
-                    <p className="exp-filter">Choose Month</p>
-                  )}
-              </div>
               {
                 this.state.selected === "monthly" ?
 
                   <div className="select_months">
                     <select onChange={this.monthlyFilter} className="select_products">
-                    <option value="products">Select a Month</option>
+                      <option value="products">Select a Month</option>
                       <option value='0'>January</option>
                       <option value='1'>February</option>
                       <option value='2'>March</option>
@@ -238,7 +171,7 @@ export class Expenses extends React.Component {
 
                   <div>
                     <select onChange={this.yearlyFilter} className="select_products">
-                    <option value='products'>--Select Year--</option>
+                      <option value='products'>Select Year</option>
                       <option value="2019">2019</option>
                       <option value="2018">2018</option>
                     </select>
@@ -257,3 +190,4 @@ export class Expenses extends React.Component {
     );
   }
 }
+

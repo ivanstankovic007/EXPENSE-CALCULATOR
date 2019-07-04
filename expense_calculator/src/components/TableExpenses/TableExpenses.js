@@ -1,5 +1,6 @@
 import React from "react";
 import "../Table/Table";
+import moment from "moment";
 
 
 export class TableExpenses extends React.Component {
@@ -21,7 +22,7 @@ export class TableExpenses extends React.Component {
                 <td>{product.productname}</td>
                 <td>{product.producttype}</td>
                 <td>{product.productdescription}</td>
-                <td>{product.purchasedate}</td>
+                <td>{moment(product.purchasedate).format('DD MMM YYYY')}</td>
                 <td>{product.price} den.</td>
               </tr>
             ))}

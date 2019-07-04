@@ -1,5 +1,6 @@
 import React from "react";
 import "../Table/Table.css";
+import moment from "moment";
 
 
 export class Table extends React.Component {
@@ -22,14 +23,13 @@ export class Table extends React.Component {
                 <td>{product.productname}</td>
                 <td>{product.producttype}</td>
                 <td>{product.productdescription}</td>
-                <td>{product.purchasedate}</td>
+                <td>{moment(product.purchasedate).format('DD MMM YYYY')}</td>
                 <td>{product.price} den.</td>
                 <td className="buttons_rows">
                   <button onClick={this.props.toEditProduct(product)} className="edit">
                   </button>&nbsp;&nbsp;
                   <button onClick={() => this.props.toggleAlert(product._id)} className="trash" />
                 </td>
-                {/* <NavLink to={"/edit/" + item.id}>icon</NavLink> */}
               </tr>
             ))}
           </table>

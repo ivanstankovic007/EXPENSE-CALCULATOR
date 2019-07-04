@@ -4,10 +4,9 @@
 }
 
 .filter_products {
-  display: inline;
   float: right;
   margin-right: 9%;
-  margin-top: -20px;
+  margin-top: -50px;
 }
 
 .select_products {
@@ -22,25 +21,10 @@
 
 .filter{
   float: right;
-  display: inline;
-  margin-right: 18%;
-  margin-top: -50px;
+  margin-right: 15px;
+  margin-top: -35px;
+  color: #404040
 }
-
-/* .trash {
-  background-image: url("../../assets/images/trash-alt.svg");
-  width: 25px;
-  height: 25px;
-  background-repeat: no-repeat;
-}
-
-.edit {
-  background-image: url("../../assets/images/edit.svg");
-  width: 25px;
-  height: 25px;
-  background-repeat: no-repeat;
-} */
-/* butons bottom fixed */
 
 .buttons_bottom {
   position: fixed;
@@ -139,5 +123,3 @@
   width: 110px;
   height: 35px;
 }
-
-

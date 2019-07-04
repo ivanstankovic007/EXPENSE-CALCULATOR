@@ -7,29 +7,18 @@
   margin-top: 30px;
   margin-left: 7%;
   width: 90%;
-  /* overflow: hidden; */
   margin-bottom: 3%;
   display: flex;
 }
 
 .middle_left {
   float: left;
-  width: 50%;
-  /* position: relative; */
-  /* margin-bottom: -99999px;
-    padding-bottom: 99999px; */
-  /* border-radius: 8px; */
+  width: 50%
 }
 
 .middle_right {
   background: #ededed;
-  width: 50%;
-  /* float: left;
-    position: relative;
-    width: 35%;
-    padding:  50px 30px; */
-  /* margin-bottom: -99999px;
-    padding-bottom: 99999px; */
+  width: 50%
 }
 
 .product_form {
